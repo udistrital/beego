@@ -62,6 +62,15 @@ var (
 		// "week_day":    true,
 		"isnull": true,
 		// "search":      true,
+
+		// for json or jsonb in postgresql
+		"json_contains": true,
+		"json_trav_gt":  true,
+		"json_trav_lt":  true,
+		"json_trav_gte": true,
+		"json_trav_lte": true,
+		"json_trav_eq":  true,
+		"json_trav_nq":  true,
 	}
 )
 
@@ -1197,8 +1206,16 @@ func (d *dbBase) GenerateOperatorSQL(mi *modelInfo, fi *fieldInfo, operator stri
 			panic(fmt.Errorf("operator `%s` need 2 args not %d", operator, len(params)))
 		}
 		sql = "BETWEEN ? AND ?"
+
+		/*
+			case "json_trav_gt":
+				if len(params) != 2 {
+					panic(fmt.Errorf("operator `%s` need 2 args not %d", operator, len(params)))
+				}
+				sql = "->> ? > ?"
+		*/
 	default:
-		if len(params) > 1 {
+		if len(params) > 1 && !strings.HasPrefix(operator, "json_") {
 			panic(fmt.Errorf("operator `%s` need 1 args not %d", operator, len(params)))
 		}
 		sql = d.ins.OperatorSQL(operator)

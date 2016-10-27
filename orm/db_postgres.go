@@ -35,6 +35,15 @@ var postgresOperators = map[string]string{
 	"endswith":    "LIKE ?",
 	"istartswith": "LIKE UPPER(?)",
 	"iendswith":   "LIKE UPPER(?)",
+
+	// for jsonb
+	"json_contains": "@> ?",
+	"json_trav_gt":  "->> ? > ?",
+	"json_trav_lt":  "->> ? < ?",
+	"json_trav_gte": "->> ? >= ?",
+	"json_trav_lte": "->> ? <= ?",
+	"json_trav_eq":  "->> ? = ?",
+	"json_trav_nq":  "->> ? != ?",
 }
 
 // postgresql column field types.

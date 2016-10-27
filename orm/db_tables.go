@@ -372,6 +372,12 @@ func (t *dbTables) getCondSQL(cond *Condition, sub bool, tz *time.Location) (whe
 				operator = "exact"
 			}
 
+			if strings.HasPrefix(operator, "json_") {
+				if !(fi.fieldType == TypeJsonbField || fi.fieldType == TypeJSONField) {
+					panic(fmt.Errorf("%s can only applied to json or jsonb field", operator))
+				}
+			}
+
 			var operSQL string
 			var args []interface{}
 			if p.isRaw {
